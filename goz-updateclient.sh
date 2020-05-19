@@ -102,7 +102,7 @@ f_updateclient() {
   TRUSTPERIOD=$(( ${TRUSTGET} / 1000000000 ))
   UPDATEPERIOD=$(( ${TRUSTPERIOD} - ${RISKAPPETITE} ))
 
-    #Initiate loop to keep sending client-update within threashold
+    #Initiate loop to keep sending client-update within threshold
     while :; do
       GETTIME=$(rly lite header "${SRCCHAIN}" | jq '.' | grep 'time":' | cut -d\" -f4)
       CLIENTTIME=$(date -d "${GETTIME}" +"%s")
@@ -118,7 +118,7 @@ f_updateclient() {
           exit_on_error
         fi
 
-        if [ $COMPARE -ge ${UPDATEPERIOD} ]; then
+        if [ ${COMPARE} -ge ${UPDATEPERIOD} ]; then
           unset client_updated
 
           until [ "${client_updated}" = "ok" ]; do
